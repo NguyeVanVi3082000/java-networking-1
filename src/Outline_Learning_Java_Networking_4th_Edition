@@ -1,0 +1,14 @@
+Chapter 1 Overview
+1. Create Simple Client Server Application
+- Socker (in the client we need address)
+- ServerSoket (we need to provide port to use)
+- Two version
+- V1: Using normal java code
+- V2: Using java 8 lambda expression with Supplier
+
+2. Create Simple Multicast Server Application
+- DataSocket
+- DatagramPack
+
+
+

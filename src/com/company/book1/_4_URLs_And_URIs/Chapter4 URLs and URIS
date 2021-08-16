@@ -1,0 +1,119 @@
+CHAPTER 4: URLs And URIs
+1. URIs
+- A URL is the most common type of URI
+- URI: Uniform Resource Identifier: identify a resource by its network location
+- A resource is a thing that is identified by a URI. A URI is a string that identifies a resource.
+- The syntax of a URI
+    - schema: schema-specific-part
+    - schema can be:  data base64 encoded data, file, FTP server, http , mailto
+                         magnet: A resource available for download via peer-to-peer networks such as BitTorrent
+                         telnet
+                         urn: a uniform resource name
+- URL
+    - a generic URI may tell you what a resource is, but not actually tell you where or how to get that resource
+    - protocol:userInfo@host:port/path?query#fragment
+    -> Technically, a string that contains a fragment identifier is a URL reference, not a URL. Java, however, does not distinguish between URLs and URL references
+
+2.  The URL class
+- Creating New URLs
+    - Java Supported Protocol: https, jar, ftp
+    -  If the protocol you need isn't supported by a particular VM -> install a protocol handler for that scheme to enable the URL class to speak to protocol
+    Note: jdbc, rmi: That support is through various parts of the java.rmi and java.sql packages, respectively
+- Retrieving Data From a URL
+     - openStream() InputStream from which you can read the data
+     - openConnection() URLConnection - Give you configure and then get an InputStream
+     - openConnection(Proxy proxy) URLConnection
+     - getContent() Object - give you a complete object. Then again it just give you an InputStream
+     - getContent() Object
+- Splitting URL  into Pieces
+     - Five peaces:
+        - The scheme or protocol
+        - The authority (username, password, host, port)
+        - The path
+        - The fragment identifier also known as the section or ref
+        - The query string
+                - Methods
+                     --  getFile(), getHost(), getPort(), getProtocol(), getRef(), getQuery(), getPath(), getUserInfo(), and getAuthority().
+- Equality and Comparison
+     - equal()  if and only if both URLs point to the same resource on the same host, port, and path, with the same fragment identifier and query string
+     - sameFile() method that checks whether two URLs point to the same resource
+- Conversion
+     - toString()
+     - toExternalForm()
+     - toURI()
+
+3. The URI class
+    - A URI is generalization of URL that not includes only uniform resource locators but also  Uniform Resource Names
+    - A URL object is a representation of an application layer protocol for network retrieval  whereas a URI object is purely for string parsing and manipulation
+    - Constructing a URI
+        - The part of the URI
+            - scheme:scheme-specific-part:fragment
+4. x-www-form-urlencoded
+         To deal with the differences between operating systems.
+         To solve these problems, characters used in URLs must come from a fixed sub set of ASCII
+             The capital letters A-Z
+             The lowercase letter a-z
+             The digits 0-9
+             The punctuation characters : - _ . ! ~ * ' (and ,)
+5. URLEncoder and URLDecoder
+         Notice in particular that this method encodes
+             the forward slash  ,
+             the ampersand
+             the equals sign
+             the colon.
+     It does not attempt to determine how these characters are being used in a URL Example: testEncoderByPeaces
+6. Proxies
+         How proxy work ?
+         Why we are using proxy ?
+              To prevent remote hosts from learning private details about the local network configuration
+              It’s done to prevent users from accessing forbidden sites by filtering outgoing requests and limiting which sites can be viewed
+         How to use
+             System.setProperty()
+             If you want to exclude a host from being proxies and connect directly instead -> set nonProxy
+         Proxy Class
+             It allows you to choose different proxy servers for different remote hosts
+             Type of Proxy Proxy.Type.DIRECT, Proxy.Type.HTTP, Proxy.Type.SOCKS
+             Create a proxy with Proxy server and type. Proxy Server is given as a SocketAddress object<host name , port>
+         The ProxySelector Class
+             Each running vm has a single java.net.ProxySelector object it uses to locate the proxy server for different connections
+             The default ProxySelector merely inspects the various system properties and  the URL'protocol to decide how to connect to different hosts
+             Custom: use it to choose different proxies based on protocol, host, path, time of day, or other criteria.
+                 public abstract List<Proxy> select(URI uri)
+                     Why URI:
+                     URL form: m http:www.example.com/ or ftp:ftp.example.com/pub/files/
+                     URI form: for a pure TCP connection made with the Socket class socket:host:port:
+                public void connectFailed(URI uri, SocketAddress address, IOException ex)
+                     To warn a program that the proxy server isn't actucally making connection
+7. Communicating with Server-Side programs Through GET
+         To use POST -> need URLConnection
+         GET -> URL
+8. Accessing Password-protected Sites
+         HTTP Authentication
+         The Authenticator Class is abstract class. Different subclass may retrieve the information in different way
+     To make the URL class use the subclass, install it as the default authenticator by passing
+      it to the static Authenticator.setDefault()
+9. The Authenticator class
+    - You only need to do this once. From this point forward, when the URL class needs a username and password, it will ask the DialogAuthenticator using the static Authenticator.requestPasswordAuthentication() method:
+    - Method need to override of Authenticator class
+        1. public static PasswordAuthentication requestPasswordAuthentication(InetAddress address, int port, String protocol, String prompt, String scheme) throws SecurityException
+            - address: is the host for which authentication is required
+            - port: port on the host
+            - protocol: is the application layer protocol by which the site is being accessed
+            - prompt: The name of the realm for which authentication is required
+            - scheme:  The scheme is the authentication scheme being used
+
+
+        2. protected PasswordAuthentication getPasswordAuthentication()
+            -> collect user name and password someway
+
+
+        protected final InetAddress getRequestingSite()
+        protected final int getRequestingPort()
+        protected final String getRequestingProtocol()
+        protected final String getRequestingPrompt()
+        protected final String getRequestingScheme()
+        protected final String getRequestingHost()
+        protected final String getRequestingURL()
+        protected Authenticator.RequestorType getRequestorType()
+10. The PasswordAuthentication  class
+    - PasswordAuthentication is a very simple final class that supports two read-only properties: username and password
