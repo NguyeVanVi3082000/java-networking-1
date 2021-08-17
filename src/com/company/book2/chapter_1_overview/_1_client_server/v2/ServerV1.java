@@ -42,6 +42,7 @@ public class ServerV1 {
                 return item;
             }).allMatch(item -> item != null);
 
+            System.out.println("This is something new for put changes into different changelist 1");
 
         } catch (IOException e) {
             e.printStackTrace();
