@@ -14,6 +14,8 @@ public class ServerV1 {
         System.out.println("This is something new");
 
         System.out.println("This is something new 2 for test commit ");
+
+        System.out.println("This is something new for put changes into different changelist 1");
         try {
             ServerSocket socket = new ServerSocket(6000);
             System.out.println("Waiting for connection ... ");
