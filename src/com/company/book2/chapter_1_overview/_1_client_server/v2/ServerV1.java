@@ -43,6 +43,9 @@ public class ServerV1 {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 }
