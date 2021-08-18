@@ -20,6 +20,8 @@ public class ServerV1 {
 
         System.out.println("This is for staging 1");
 
+
+        System.out.println("This will be merge to master by vinv");
         try {
             ServerSocket socket = new ServerSocket(6000);
             System.out.println("Waiting for connection ... ");
