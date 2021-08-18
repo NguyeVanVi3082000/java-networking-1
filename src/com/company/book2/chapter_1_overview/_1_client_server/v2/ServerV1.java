@@ -12,6 +12,8 @@ public class ServerV1 {
         System.out.println("Eco Server");
 
         System.out.println("This is something new");
+
+        System.out.println("This will be merge to master by vinv");
         try {
             ServerSocket socket = new ServerSocket(6000);
             System.out.println("Waiting for connection ... ");
