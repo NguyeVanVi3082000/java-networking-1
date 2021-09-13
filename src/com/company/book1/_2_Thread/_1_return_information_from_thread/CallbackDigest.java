@@ -1,4 +1,4 @@
-package com.company.book1._1_return_information_from_thread;
+package com.company.book1._2_Thread._1_return_information_from_thread;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
